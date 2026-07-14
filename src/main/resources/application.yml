@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: grpc-kafka-bridge
+
+  # ── Kafka ──────────────────────────────────────────────────────────────────
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+      properties:
+        enable.idempotence: true
+
+# ── Bridge-specific config ───────────────────────────────────────────────────
+bridge:
+  grpc:
+    host: ${SUB_SERVER_HOST:localhost}
+    port: ${SUB_SERVER_PORT:50051}
+    iot-id: ${IOT_ID:0}              # 0 = subscribe to all devices
+    reconnect-delay-ms: 5000
+
+  kafka:
+    topic: ${KAFKA_TOPIC:subserver-data}
+    send-timeout-ms: 5000
+
+# ── Logging ──────────────────────────────────────────────────────────────────
+logging:
+  level:
+    com.bridge: INFO
+    io.grpc: WARN
