@@ -11,7 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Serializes gRPC DataEnvelope fields to JSON and publishes to Kafka.
+ * Sends a standardised envelope to Kafka:
+ * { "type": "...", "source": "...", "version": "...", "payload": { ... } }
  */
 @Service
 public class KafkaBridgeProducer {
@@ -31,14 +32,20 @@ public class KafkaBridgeProducer {
 
     public void sendToKafka(String correlationId, long iotId, String dataType, String data) {
         try {
-            Map<String, Object> msg = new LinkedHashMap<>();
-            msg.put("correlation_id", correlationId);
-            msg.put("iot_id", iotId);
-            msg.put("data_type", dataType);
-            msg.put("data", data);
-            msg.put("ts", System.currentTimeMillis());
+            Map<String, Object> payload = new LinkedHashMap<>();
+            payload.put("correlation_id", correlationId);
+            payload.put("iot_id", iotId);
+            payload.put("data_type", dataType);
+            payload.put("data", data);
+            payload.put("received_at", System.currentTimeMillis());
 
-            String json = mapper.writeValueAsString(msg);
+            Map<String, Object> envelope = new LinkedHashMap<>();
+            envelope.put("type", config.getKafka().getPayloadType());
+            envelope.put("source", config.getKafka().getSource());
+            envelope.put("version", config.getKafka().getVersion());
+            envelope.put("payload", payload);
+
+            String json = mapper.writeValueAsString(envelope);
 
             kafkaTemplate.send(config.getKafka().getTopic(), json)
                     .whenComplete((result, ex) -> {

@@ -19,7 +19,7 @@ public class BridgeConfig {
     public static class Grpc {
         private String host = "localhost";
         private int port = 50051;
-        private long iotId = 0;          // 0 = all devices
+        private long iotId = 0;
         private int reconnectDelayMs = 5000;
 
         public String getHost() { return host; }
@@ -37,12 +37,20 @@ public class BridgeConfig {
 
     public static class Kafka {
         private String topic = "subserver-data";
-        private int sendTimeoutMs = 5000;
+        private String payloadType = "subserver.data";
+        private String source = "grpc-kafka-bridge";
+        private String version = "1.0";
 
         public String getTopic() { return topic; }
         public void setTopic(String topic) { this.topic = topic; }
 
-        public int getSendTimeoutMs() { return sendTimeoutMs; }
-        public void setSendTimeoutMs(int sendTimeoutMs) { this.sendTimeoutMs = sendTimeoutMs; }
+        public String getPayloadType() { return payloadType; }
+        public void setPayloadType(String payloadType) { this.payloadType = payloadType; }
+
+        public String getSource() { return source; }
+        public void setSource(String source) { this.source = source; }
+
+        public String getVersion() { return version; }
+        public void setVersion(String version) { this.version = version; }
     }
 }
