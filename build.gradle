@@ -50,6 +50,7 @@ protobuf {
             artifact = 'io.grpc:protoc-gen-grpc-java:1.68.2'
         }
     }
+        // Proto files are in src/main/proto/
     generateProtoTasks {
         all().forEach { task ->
             task.builtins {
@@ -62,15 +63,7 @@ protobuf {
     }
 }
 
-// Ensure generated proto sources are compiled
-sourceSets {
-    main {
-        java {
-            srcDirs 'build/generated/source/proto/main/grpc'
-            srcDirs 'build/generated/source/proto/main/java'
-        }
-    }
-}
+
 
 tasks.named('test') {
     useJUnitPlatform()
