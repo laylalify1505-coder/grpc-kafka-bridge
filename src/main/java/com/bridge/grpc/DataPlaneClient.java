@@ -62,8 +62,10 @@ public class DataPlaneClient {
                                 config.getGrpc().getHost(),
                                 config.getGrpc().getPort())
                         .usePlaintext()
-                        .keepAliveTime(30, TimeUnit.SECONDS)
-                        .keepAliveTimeout(10, TimeUnit.SECONDS)
+                        // Server typically throttles to 2 pings per 5 min.
+                        // Send pings every 5 min with 30s timeout.
+                        .keepAliveTime(5, TimeUnit.MINUTES)
+                        .keepAliveTimeout(30, TimeUnit.SECONDS)
                         .keepAliveWithoutCalls(true)
                         .build();
 
