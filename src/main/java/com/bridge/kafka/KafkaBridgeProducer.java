@@ -40,18 +40,18 @@ public class KafkaBridgeProducer {
             payload.put("received_at", System.currentTimeMillis());
 
             Map<String, Object> envelope = new LinkedHashMap<>();
-            envelope.put("type", config.getKafkaPayloadType());
-            envelope.put("source", config.getKafkaSource());
-            envelope.put("version", config.getKafkaVersion());
+            envelope.put("type", config.getKafka().getPayloadType());
+            envelope.put("source", config.getKafka().getSource());
+            envelope.put("version", config.getKafka().getVersion());
             envelope.put("payload", payload);
 
             String json = mapper.writeValueAsString(envelope);
 
-            kafkaTemplate.send(config.getKafkaTopic(), json)
+            kafkaTemplate.send(config.getKafka().getTopic(), json)
                     .whenComplete((result, ex) -> {
                         if (ex != null) {
                             log.error("Failed to send to Kafka topic [{}]: {}",
-                                    config.getKafkaTopic(), ex.getMessage());
+                                    config.getKafka().getTopic(), ex.getMessage());
                         }
                     });
 
