@@ -15,29 +15,29 @@ public final class DataPlaneGrpc {
   public static final java.lang.String SERVICE_NAME = "subserver.dataplane.v1.DataPlane";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest,
-      subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope> getSubscribeMethod;
+  private static volatile io.grpc.MethodDescriptor<subserver.dataplane.v1.SubscribeRequest,
+      subserver.dataplane.v1.DataEnvelope> getSubscribeMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "Subscribe",
-      requestType = subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest.class,
-      responseType = subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope.class,
+      requestType = subserver.dataplane.v1.SubscribeRequest.class,
+      responseType = subserver.dataplane.v1.DataEnvelope.class,
       methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest,
-      subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope> getSubscribeMethod() {
-    io.grpc.MethodDescriptor<subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest, subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope> getSubscribeMethod;
+  public static io.grpc.MethodDescriptor<subserver.dataplane.v1.SubscribeRequest,
+      subserver.dataplane.v1.DataEnvelope> getSubscribeMethod() {
+    io.grpc.MethodDescriptor<subserver.dataplane.v1.SubscribeRequest, subserver.dataplane.v1.DataEnvelope> getSubscribeMethod;
     if ((getSubscribeMethod = DataPlaneGrpc.getSubscribeMethod) == null) {
       synchronized (DataPlaneGrpc.class) {
         if ((getSubscribeMethod = DataPlaneGrpc.getSubscribeMethod) == null) {
           DataPlaneGrpc.getSubscribeMethod = getSubscribeMethod =
-              io.grpc.MethodDescriptor.<subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest, subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope>newBuilder()
+              io.grpc.MethodDescriptor.<subserver.dataplane.v1.SubscribeRequest, subserver.dataplane.v1.DataEnvelope>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Subscribe"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest.getDefaultInstance()))
+                  subserver.dataplane.v1.SubscribeRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope.getDefaultInstance()))
+                  subserver.dataplane.v1.DataEnvelope.getDefaultInstance()))
               .setSchemaDescriptor(new DataPlaneMethodDescriptorSupplier("Subscribe"))
               .build();
         }
@@ -96,8 +96,8 @@ public final class DataPlaneGrpc {
 
     /**
      */
-    default void subscribe(subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest request,
-        io.grpc.stub.StreamObserver<subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope> responseObserver) {
+    default void subscribe(subserver.dataplane.v1.SubscribeRequest request,
+        io.grpc.stub.StreamObserver<subserver.dataplane.v1.DataEnvelope> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSubscribeMethod(), responseObserver);
     }
   }
@@ -131,8 +131,8 @@ public final class DataPlaneGrpc {
 
     /**
      */
-    public void subscribe(subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest request,
-        io.grpc.stub.StreamObserver<subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope> responseObserver) {
+    public void subscribe(subserver.dataplane.v1.SubscribeRequest request,
+        io.grpc.stub.StreamObserver<subserver.dataplane.v1.DataEnvelope> responseObserver) {
       io.grpc.stub.ClientCalls.asyncServerStreamingCall(
           getChannel().newCall(getSubscribeMethod(), getCallOptions()), request, responseObserver);
     }
@@ -156,8 +156,8 @@ public final class DataPlaneGrpc {
 
     /**
      */
-    public java.util.Iterator<subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope> subscribe(
-        subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest request) {
+    public java.util.Iterator<subserver.dataplane.v1.DataEnvelope> subscribe(
+        subserver.dataplane.v1.SubscribeRequest request) {
       return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
           getChannel(), getSubscribeMethod(), getCallOptions(), request);
     }
@@ -200,8 +200,8 @@ public final class DataPlaneGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_SUBSCRIBE:
-          serviceImpl.subscribe((subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest) request,
-              (io.grpc.stub.StreamObserver<subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope>) responseObserver);
+          serviceImpl.subscribe((subserver.dataplane.v1.SubscribeRequest) request,
+              (io.grpc.stub.StreamObserver<subserver.dataplane.v1.DataEnvelope>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -225,8 +225,8 @@ public final class DataPlaneGrpc {
           getSubscribeMethod(),
           io.grpc.stub.ServerCalls.asyncServerStreamingCall(
             new MethodHandlers<
-              subserver.dataplane.v1.DataPlaneOuterClass.SubscribeRequest,
-              subserver.dataplane.v1.DataPlaneOuterClass.DataEnvelope>(
+              subserver.dataplane.v1.SubscribeRequest,
+              subserver.dataplane.v1.DataEnvelope>(
                 service, METHODID_SUBSCRIBE)))
         .build();
   }
