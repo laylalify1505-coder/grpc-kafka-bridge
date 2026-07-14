@@ -6,13 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import subserver.dataplane.v1.DataEnvelope;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Serializes each DataEnvelope to JSON and publishes to the configured Kafka topic.
+ * Serializes gRPC DataEnvelope fields to JSON and publishes to Kafka.
  */
 @Service
 public class KafkaBridgeProducer {
@@ -30,16 +29,13 @@ public class KafkaBridgeProducer {
         this.mapper = new ObjectMapper();
     }
 
-    /**
-     * Convert a protobuf DataEnvelope to a flat JSON map and send to Kafka.
-     */
-    public void sendToKafka(DataEnvelope envelope) {
+    public void sendToKafka(String correlationId, long iotId, String dataType, String data) {
         try {
             Map<String, Object> msg = new LinkedHashMap<>();
-            msg.put("correlation_id", envelope.getCorrelationId());
-            msg.put("iot_id", envelope.getIotId());
-            msg.put("data_type", envelope.getDataType());
-            msg.put("data", envelope.getData());
+            msg.put("correlation_id", correlationId);
+            msg.put("iot_id", iotId);
+            msg.put("data_type", dataType);
+            msg.put("data", data);
             msg.put("ts", System.currentTimeMillis());
 
             String json = mapper.writeValueAsString(msg);
@@ -53,7 +49,7 @@ public class KafkaBridgeProducer {
                     });
 
         } catch (Exception e) {
-            log.error("Failed to serialize DataEnvelope: {}", e.getMessage());
+            log.error("Failed to serialize message: {}", e.getMessage());
         }
     }
 }
