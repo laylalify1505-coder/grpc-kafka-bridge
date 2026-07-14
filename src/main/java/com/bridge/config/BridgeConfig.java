@@ -1,5 +1,6 @@
 package com.bridge.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +18,10 @@ public class BridgeConfig {
     public void setKafka(Kafka kafka) { this.kafka = kafka; }
 
     public static class Grpc {
-        private String host = "localhost";
-        private int port = 50051;
-        private long iotId = 0;
-        private int reconnectDelayMs = 5000;
+        private String host;
+        private int port;
+        private long iotId;
+        private int reconnectDelayMs;
 
         public String getHost() { return host; }
         public void setHost(String host) { this.host = host; }
@@ -36,16 +37,16 @@ public class BridgeConfig {
     }
 
     public static class Kafka {
-        private String topic = "subserver-data";
-        private String payloadType = "subserver.data";
-        private String source = "grpc-kafka-bridge";
-        private String version = "1.0";
+        private String topic;
+        private String type;
+        private String source;
+        private String version;
 
         public String getTopic() { return topic; }
         public void setTopic(String topic) { this.topic = topic; }
 
-        public String getPayloadType() { return payloadType; }
-        public void setPayloadType(String payloadType) { this.payloadType = payloadType; }
+        public String getType() { return type; }
+        public void setType(String type) { this.type = type; }
 
         public String getSource() { return source; }
         public void setSource(String source) { this.source = source; }

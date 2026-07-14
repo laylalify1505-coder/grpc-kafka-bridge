@@ -40,7 +40,7 @@ public class KafkaBridgeProducer {
             payload.put("received_at", System.currentTimeMillis());
 
             Map<String, Object> envelope = new LinkedHashMap<>();
-            envelope.put("type", config.getKafka().getPayloadType());
+            envelope.put("type", config.getKafka().getType());
             envelope.put("source", config.getKafka().getSource());
             envelope.put("version", config.getKafka().getVersion());
             envelope.put("payload", payload);
