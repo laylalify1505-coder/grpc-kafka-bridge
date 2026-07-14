@@ -56,11 +56,11 @@ public class DataPlaneClient {
         while (running.get()) {
             try {
                 log.info("Connecting to Sub-Server gRPC at {}:{} ...",
-                        config.getGrpc().getHost(), config.getGrpc().getPort());
+                        config.getGrpcHost(), config.getGrpcPort());
 
                 channel = ManagedChannelBuilder.forAddress(
-                                config.getGrpc().getHost(),
-                                config.getGrpc().getPort())
+                                config.getGrpcHost(),
+                                config.getGrpcPort())
                         .usePlaintext()
                         // Server typically throttles to 2 pings per 5 min.
                         // Send pings every 5 min with 30s timeout.
@@ -72,7 +72,7 @@ public class DataPlaneClient {
                 var stub = DataPlaneGrpc.newStub(channel);
 
                 var request = SubscribeRequest.newBuilder()
-                        .setIotId(config.getGrpc().getIotId())
+                        .setIotId(config.getGrpcIotId())
                         .build();
 
                 var latch = new CountDownLatch(1);
@@ -87,7 +87,7 @@ public class DataPlaneClient {
                                 envelope.getData());
                         log.info("Forwarded iot_id={} type={} to Kafka topic [{}]",
                                 envelope.getIotId(), envelope.getDataType(),
-                                config.getKafka().getTopic());
+                                config.getKafkaTopic());
                     }
 
                     @Override
@@ -114,9 +114,9 @@ public class DataPlaneClient {
             }
 
             if (running.get()) {
-                log.info("Reconnecting in {} ms ...", config.getGrpc().getReconnectDelayMs());
+                log.info("Reconnecting in {} ms ...", config.getGrpcReconnectDelayMs());
                 try {
-                    Thread.sleep(config.getGrpc().getReconnectDelayMs());
+                    Thread.sleep(config.getGrpcReconnectDelayMs());
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;

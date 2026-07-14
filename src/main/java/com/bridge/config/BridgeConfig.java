@@ -1,56 +1,50 @@
 package com.bridge.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * All values resolved from environment variables with sensible defaults.
+ */
 @Component
-@ConfigurationProperties(prefix = "bridge")
 public class BridgeConfig {
 
-    private Grpc grpc = new Grpc();
-    private Kafka kafka = new Kafka();
+    // ── gRPC ────────────────────────────────────────────────────────────────
+    @Value("${SUB_SERVER_HOST:localhost}")
+    private String grpcHost;
 
-    public Grpc getGrpc() { return grpc; }
-    public void setGrpc(Grpc grpc) { this.grpc = grpc; }
+    @Value("${SUB_SERVER_PORT:50051}")
+    private int grpcPort;
 
-    public Kafka getKafka() { return kafka; }
-    public void setKafka(Kafka kafka) { this.kafka = kafka; }
+    /** 0 = subscribe to all devices */
+    @Value("${IOT_ID:0}")
+    private long grpcIotId;
 
-    public static class Grpc {
-        private String host = "localhost";
-        private int port = 50051;
-        private long iotId = 0;
-        private int reconnectDelayMs = 5000;
+    @Value("${RECONNECT_DELAY_MS:5000}")
+    private int grpcReconnectDelayMs;
 
-        public String getHost() { return host; }
-        public void setHost(String host) { this.host = host; }
+    // ── Kafka ───────────────────────────────────────────────────────────────
+    @Value("${KAFKA_TOPIC:subserver-data}")
+    private String kafkaTopic;
 
-        public int getPort() { return port; }
-        public void setPort(int port) { this.port = port; }
+    @Value("${KAFKA_PAYLOAD_TYPE:subserver.data}")
+    private String kafkaPayloadType;
 
-        public long getIotId() { return iotId; }
-        public void setIotId(long iotId) { this.iotId = iotId; }
+    @Value("${KAFKA_SOURCE:grpc-kafka-bridge}")
+    private String kafkaSource;
 
-        public int getReconnectDelayMs() { return reconnectDelayMs; }
-        public void setReconnectDelayMs(int reconnectDelayMs) { this.reconnectDelayMs = reconnectDelayMs; }
-    }
+    @Value("${KAFKA_VERSION:1.0}")
+    private String kafkaVersion;
 
-    public static class Kafka {
-        private String topic = "subserver-data";
-        private String payloadType = "subserver.data";
-        private String source = "grpc-kafka-bridge";
-        private String version = "1.0";
+    // ── Getters ─────────────────────────────────────────────────────────────
 
-        public String getTopic() { return topic; }
-        public void setTopic(String topic) { this.topic = topic; }
+    public String getGrpcHost() { return grpcHost; }
+    public int getGrpcPort() { return grpcPort; }
+    public long getGrpcIotId() { return grpcIotId; }
+    public int getGrpcReconnectDelayMs() { return grpcReconnectDelayMs; }
 
-        public String getPayloadType() { return payloadType; }
-        public void setPayloadType(String payloadType) { this.payloadType = payloadType; }
-
-        public String getSource() { return source; }
-        public void setSource(String source) { this.source = source; }
-
-        public String getVersion() { return version; }
-        public void setVersion(String version) { this.version = version; }
-    }
+    public String getKafkaTopic() { return kafkaTopic; }
+    public String getKafkaPayloadType() { return kafkaPayloadType; }
+    public String getKafkaSource() { return kafkaSource; }
+    public String getKafkaVersion() { return kafkaVersion; }
 }
