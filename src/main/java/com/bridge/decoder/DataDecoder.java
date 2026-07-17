@@ -107,6 +107,10 @@ public class DataDecoder {
             decimatedMag[k] = Math.round(magDB[idx] * 100.0) / 100.0;
         }
 
+        // Convert I/Q to ci32_le binary (interleaved int32 LE)
+        byte[] ci32 = IqConverter.toCi32Le(iSamples, qSamples);
+        String ci32Base64 = java.util.Base64.getEncoder().encodeToString(ci32);
+
         Map<String, Object> decoded = new LinkedHashMap<>();
         decoded.put("sample_count", n);
         decoded.put("sample_period", feature.get("sample_period"));
@@ -123,6 +127,13 @@ public class DataDecoder {
         }
         decoded.put("total_power", Math.round(totalPower * 1e12) / 1e12);
         decoded.put("avg_power_per_sample", Math.round(totalPower / n * 1e15) / 1e15);
+
+        // ci32_le binary payload (interleaved int32, little-endian)
+        decoded.put("iq_format", "ci32_le");
+        decoded.put("iq_bytes", ci32.length);
+        decoded.put("iq_scale_factor", IqConverter.computeScale(iSamples, qSamples, n));
+        // Add the binary payload as base64 for Kafka transport
+        decoded.put("iq_data_base64", ci32Base64);
 
         feature.put("_decoded", decoded);
     }

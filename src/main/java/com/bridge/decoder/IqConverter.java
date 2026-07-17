@@ -121,7 +121,7 @@ public class IqConverter {
      * The EMP API returns I/Q in μV. Typical values are ~1e-5 to 1e-3.
      * We scale so that max(abs(sample)) ≈ 80% of Integer.MAX_VALUE.
      */
-    private static double computeScale(List<Double> iSamples, List<Double> qSamples, int n) {
+    public static double computeScale(List<Double> iSamples, List<Double> qSamples, int n) {
         double maxAbs = 1e-15;
         for (int k = 0; k < n; k++) {
             double i = Math.abs(iSamples.get(k));
